@@ -11,7 +11,7 @@ import { UserContext } from '../Context/UserContext';
 
 
 function NavBar() {
-    const { user, loggedIn, logout,current } = useContext(UserContext);
+    const { user, loggedIn, logout, current } = useContext(UserContext);
 
     const handleLogout = () => {
         // hook your real logout logic here
@@ -42,7 +42,7 @@ function NavBar() {
                                 <div>
                                     <img
                                         src={current?.image ? `http://localhost:8080/${current.image}` : "https://picsum.photos/200/300"}
-                                        
+
                                         alt="profile"
                                         className="profile-img"
                                     />
