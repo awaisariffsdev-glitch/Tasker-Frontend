@@ -8,8 +8,8 @@ export default async function GetData() {
             toast.error("Data Not Found");
         }
         const json = await response.json();
-        return json;
         console.log(JSON.stringify(json))
+        return json;
     } catch (error) {
         console.log(error);
         toast.error("Server Error");

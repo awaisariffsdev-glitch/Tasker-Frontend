@@ -13,7 +13,7 @@ export default function TaskProvider({ children }) {
     useEffect(() => {
         if (tasks.length == 0) {
             async function FetchData() {
-                setTasks(await GetData);
+                setTasks(await GetData());
             }
             FetchData();
         }
@@ -22,9 +22,9 @@ export default function TaskProvider({ children }) {
 
     return (
         <>
-            <TaskProvider value={tasks, setTasks}>
+            <TaskContext.Provider value={{tasks, setTasks}}>
                 {children}
-            </TaskProvider>
+            </TaskContext.Provider>
 
         </>
     )
