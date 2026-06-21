@@ -3,7 +3,7 @@ import { TaskContext } from '../Context/TaskContext'
 
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
-    console.log(tasks)
+    // console.log(tasks)
     if (!localStorage.getItem("token")) {
         return (
             <>

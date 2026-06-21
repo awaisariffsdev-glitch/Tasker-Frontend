@@ -14,6 +14,7 @@ export default async function GetData() {
             toast.error("Data Not Found");
         }
         const json = await response.json();
+        console.log(json)
         // console.log(JSON.stringify(json))
         return json;
     } catch (error) {

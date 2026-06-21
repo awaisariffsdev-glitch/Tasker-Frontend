@@ -13,16 +13,24 @@ export default function TaskProvider({ children }) {
     useEffect(() => {
         if (tasks.length == 0) {
             async function FetchData() {
-                setTasks(await GetData());
+                const data = setTasks(await GetData());
             }
-            FetchData();
+            const token = localStorage.getItem("token");
+            if (token) {
+                FetchData();
+
+            }
+            else {
+                setTasks([])
+            }
         }
+
         return;
-    }, [])
+    }, [localStorage.getItem("token")])
 
     return (
         <>
-            <TaskContext.Provider value={{tasks, setTasks}}>
+            <TaskContext.Provider value={{ tasks, setTasks }}>
                 {children}
             </TaskContext.Provider>
 
