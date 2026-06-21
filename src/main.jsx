@@ -6,15 +6,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter } from 'react-router-dom'
 import UserProvider from './Context/UserContext.jsx';
+import TaskProvider from './Context/TaskContext.jsx';
 
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <UserProvider>
+    <TaskProvider>
+      <BrowserRouter >
+        <App />
+      </BrowserRouter>
 
-  <BrowserRouter >
-    <App />
-  </BrowserRouter>
+    </TaskProvider>
   </UserProvider>
   // </StrictMode>,
 )
