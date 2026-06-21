@@ -43,6 +43,7 @@
 import { createContext, useEffect, useState } from "react";
 import GetData from "../Services/GetData";
 
+
 export const TaskContext = createContext({
     tasks: [],
     setTasks: () => { }
@@ -50,14 +51,18 @@ export const TaskContext = createContext({
 
 export default function TaskProvider({ children }) {
     const [tasks, setTasks] = useState([]);
-
+    
+console.log("UseEffect Is Running")
     useEffect(() => {
         async function FetchData() {
-            const data = await GetData();
+            console.log("Staring");
+            const data = (await GetData());
+            console.log(data);
             setTasks(data || []);
         }
 
         const token = localStorage.getItem("token");
+        console.log(token)
         if (token) {
             FetchData();
         } else {

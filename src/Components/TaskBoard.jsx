@@ -3,6 +3,7 @@ import { TaskContext } from '../Context/TaskContext'
 
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
+    console.log(tasks)
     // console.log(tasks)
     if (!localStorage.getItem("token")) {
         return (
@@ -17,15 +18,15 @@ const TaskBoard = () => {
         <div>
             <div className='text-light'>
                 {tasks.length > 0 ? (
-                    tasks.map((task) => {
+                    tasks.map((task) => (
 
-                        return (
-                            <div key={task._id}>
-                                <h2>{task.title}</h2>
-                                <p>{task.description}</p>
-                            </div>
-                        )
-                    })
+
+                        <div key={task._id}>
+                            <h2>{task.title}</h2>
+                            <p>{task.description}</p>
+                        </div>
+
+                    ))
                 ) : (
                     <div className="">
                         <p>No Data Found</p>

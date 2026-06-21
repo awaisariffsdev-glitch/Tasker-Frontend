@@ -33,7 +33,7 @@ export default async function GetData() {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await axios.get("http://localhost:8080/task/findAll", {
+        const response = await fetch("http://localhost:8080/task/findAll", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
