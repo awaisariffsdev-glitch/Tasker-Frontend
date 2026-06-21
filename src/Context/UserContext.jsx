@@ -69,7 +69,7 @@ export default function UserProvider({ children }) {
 
             } catch (err) {
                 console.log("Invalid user data in localStorage, clearing it");
-                localStorage.removeItem("user");
+                localStorage.clear("user");
             }
         }
 
@@ -80,6 +80,7 @@ export default function UserProvider({ children }) {
 
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user")
         setUser(null);
         setLoggedIn(false);
     };
