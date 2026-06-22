@@ -42,12 +42,14 @@
 
 
 
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { TaskContext } from '../Context/TaskContext'
+import AddTaskModal from './AddTaskModel'
 // import './TaskBoard.css'
 
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     if (!localStorage.getItem("token")) {
         return null
@@ -56,9 +58,15 @@ const TaskBoard = () => {
     return (
         <div className="task-board-container">
             <div className="task-board-header">
-                <h1>My Tasks</h1>
+                <h3>My Tasks</h3>
                 <p className="task-count">{tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}</p>
             </div>
+            <button
+                className="btn-add-new-task"
+                onClick={() => setShowAddModal(true)}
+            >
+                + Add Task
+            </button>
 
             {tasks.length > 0 ? (
                 <div className="tasks-grid">
@@ -68,9 +76,9 @@ const TaskBoard = () => {
                                 <h3 className="task-title">{task.title}</h3>
                                 <span className="task-status">{task.progress}</span>
                             </div>
-                            
+
                             <p className="task-description">{task.description}</p>
-                            
+
                             <div className="task-meta">
                                 <div className="meta-item">
                                     <span className="meta-label">Due Date:</span>
@@ -83,7 +91,7 @@ const TaskBoard = () => {
                             </div>
 
                             <div className="task-actions">
-                                <button className="btn-edit">Edit</button>
+                                <button className="btn-edit bg-dark text-light">Edit</button>
                                 <button className="btn-delete">Delete</button>
                             </div>
                         </div>
@@ -96,6 +104,7 @@ const TaskBoard = () => {
                     <p>Create your first task to get started</p>
                 </div>
             )}
+            <AddTaskModal show={showAddModal} handleClose={() => setShowAddModal(false)} />
         </div>
     )
 }
