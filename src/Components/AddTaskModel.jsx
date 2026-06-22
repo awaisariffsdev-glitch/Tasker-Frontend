@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap'
 import { TaskContext } from '../Context/TaskContext'
 import AddTask from '../Services/AddTask'
 import GetData from '../Services/GetData'
+import { toast,ToastContainer } from 'react-toastify'
 // import './AddTaskModal.css'
 
 const AddTaskModal = ({ show, handleClose }) => {
@@ -30,11 +31,11 @@ const AddTaskModal = ({ show, handleClose }) => {
         e.preventDefault();
 
         if (!formData.title || !formData.description || !formData.dueDate || !formData.dueTime) {
-            alert("Please fill all required fields");
+            toast.error("Please fill all required fields");
             return;
         }
 
-        console.log(formData)
+        // console.log(formData)
 
         setLoading(true);
         const result = await AddTask(formData);
@@ -42,7 +43,7 @@ const AddTaskModal = ({ show, handleClose }) => {
         if (result) {
             // Refresh tasks from backend
             const updatedTasks = await GetData();
-            setTasks(updatedTasks || []);
+            setTasks([...updatedTasks].reverse() || []);
 
             // Reset form
             setFormData({
@@ -66,6 +67,16 @@ const AddTaskModal = ({ show, handleClose }) => {
             <Modal.Header closeButton={!loading}>
                 <Modal.Title>Add New Task</Modal.Title>
             </Modal.Header>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                pauseOnHover={false}
+                theme="dark"
+                style={{ zIndex: 99999 }}
+            />
 
             <Modal.Body>
                 <form onSubmit={handleSubmit}>

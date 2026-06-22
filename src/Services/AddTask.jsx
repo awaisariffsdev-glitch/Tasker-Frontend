@@ -5,14 +5,17 @@ export default async function AddTask(taskData) {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:8080/task/taskAdd", taskData, {
-            
+        const response = await fetch("http://localhost:8080/task/taskAdd", {
+            method: "POST",  // 👈 REQUIRED
             headers: {
-                // "Content-Type": "application/json",
+                "Content-Type": "application/json",  // 👈 REQUIRED for POST
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify(taskData),
+            body: JSON.stringify(taskData),  // 👈 body ke andar data
         });
+
+
+        
 
         if (!response.ok) {
             const error = await response.json();

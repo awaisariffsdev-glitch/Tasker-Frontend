@@ -50,7 +50,7 @@ import AddTaskModal from './AddTaskModel'
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
     const [showAddModal, setShowAddModal] = useState(false);
-    console.log(tasks);
+    // console.log(tasks);
 
     if (!localStorage.getItem("token")) {
         return null
