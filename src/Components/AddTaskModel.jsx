@@ -34,6 +34,8 @@ const AddTaskModal = ({ show, handleClose }) => {
             return;
         }
 
+        console.log(formData)
+
         setLoading(true);
         const result = await AddTask(formData);
 

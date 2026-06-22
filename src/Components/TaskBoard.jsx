@@ -50,6 +50,7 @@ import AddTaskModal from './AddTaskModel'
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
     const [showAddModal, setShowAddModal] = useState(false);
+    console.log(tasks);
 
     if (!localStorage.getItem("token")) {
         return null
@@ -104,7 +105,7 @@ const TaskBoard = () => {
                     <p>Create your first task to get started</p>
                 </div>
             )}
-            <AddTaskModal show={showAddModal} handleClose={() => setShowAddModal(false)} />
+            <div className='text-center'><AddTaskModal show={showAddModal} handleClose={() => setShowAddModal(false)} /></div>
         </div>
     )
 }

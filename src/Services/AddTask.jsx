@@ -1,14 +1,14 @@
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "react-toastify";
 
 export default async function AddTask(taskData) {
     try {
         const token = localStorage.getItem("token");
 
-        const response = await axios.post("http://localhost:8080/task/taskAdd", {
-            method: "POST",
+        const response = await fetch("http://localhost:8080/task/taskAdd", taskData, {
+            
             headers: {
-                "Content-Type": "application/json",
+                // "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify(taskData),
