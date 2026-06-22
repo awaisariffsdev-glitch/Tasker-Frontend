@@ -143,9 +143,11 @@ import React, { useContext, useState } from 'react'
 import { TaskContext } from '../Context/TaskContext'
 import AddTaskModal from './AddTaskModel'
 import UpdateTaskModel from './UpdateTaskModel';
+import DeleteTask from '../Services/DeleteTask';
+import { toast } from 'react-toastify';
 
 const TaskBoard = () => {
-    const { tasks } = useContext(TaskContext);
+    const { tasks, setTasks } = useContext(TaskContext);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
@@ -156,7 +158,11 @@ const TaskBoard = () => {
     }
 
     const handleDelete = async (taskId) => {
-        if (window.confirm("Are You wants to delete The task")) { }
+        if (window.confirm("Are You wants to delete The task")) {
+            await DeleteTask(taskId);
+            setTasks(prev => prev.filter(task=>tasks._id !== taskId));
+            toast.success("Task Delete Successfully")
+        }
     }
 
     if (!localStorage.getItem("token")) {
