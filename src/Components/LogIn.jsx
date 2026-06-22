@@ -108,18 +108,18 @@ function LogIn() {
         }
 
         .login-trigger {
-          background-color: var(--bg-dark) !important;
+          background-color: white !important;
           border: 1px solid #333 !important;
           letter-spacing: 0.04em;
           font-size: 0.85rem;
           font-weight: 500;
           padding: 0.5rem 1.6rem !important;
           border-radius: 50px !important;
-          color: #fff !important;
+          color: #000000 !important;
           transition: background-color 0.2s ease, transform 0.15s ease;
         }
         .login-trigger:hover {
-          background-color: #2a2a2a !important;
+         
           transform: translateY(-1px);
         }
 

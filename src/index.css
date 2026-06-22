@@ -34,7 +34,7 @@
 .custom-toggle {
     border: none !important;
     box-shadow: none !important;
-    
+    width: 30% !important;
     filter: invert(1);
 }
 
@@ -275,7 +275,7 @@ body {
     margin: 0 0 1rem 0;
     flex: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    /* -webkit-line-clamp: 3; */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
