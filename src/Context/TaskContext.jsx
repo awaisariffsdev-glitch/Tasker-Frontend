@@ -52,17 +52,17 @@ export const TaskContext = createContext({
 export default function TaskProvider({ children }) {
     const [tasks, setTasks] = useState([]);
     
-console.log("UseEffect Is Running")
+// console.log("UseEffect Is Running")
     useEffect(() => {
         async function FetchData() {
-            console.log("Staring");
+            // console.log("Staring");
             const data = (await GetData());
-            console.log(data);
+            // console.log(data);
             setTasks(data || []);
         }
 
         const token = localStorage.getItem("token");
-        console.log(token)
+        // console.log(token)
         if (token) {
             FetchData();
         } else {

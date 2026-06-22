@@ -76,6 +76,7 @@ function LogIn() {
             // console.log(response.data.user)
             setLoggedIn(true)
             setCurrent(response.data.user)
+            window.location.reload();
             
 
             toast.success("Logged in successfully");
