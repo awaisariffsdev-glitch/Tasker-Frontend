@@ -12,6 +12,7 @@ export default async function DeleteTask(taskId, taskData) {
             }
 
         });
+        // console.log(response.status)
         if (!response.ok){
             const error = await response.json();
             toast.error("Task Can't Deleted")
