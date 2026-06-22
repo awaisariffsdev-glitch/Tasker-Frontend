@@ -82,19 +82,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import SignUp from '../Components/SignUp'
 import LogIn from '../Components/LogIn'
- import { useContext } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../Context/UserContext';
 import { Nav, NavDropdown } from 'react-bootstrap';
 
 const NavBar = () => {
     const { user, loggedIn, logout, current } = useContext(UserContext);
 
-    
+
     return (
         <div className='d-flex justify-content-center mt-2 ' style={{ position: "sticky", top: "0%" }}>
             <nav className='bg-dark d-flex justify-content-between align-items-center w-75  ' style={{ borderRadius: "50px" }}>
                 <div className="ms-2" style={{ borderRadius: "40px", width: "20%" }}>
-                    <img src="img/hey.png" alt="" style={{ width: "10vh" }} />
+                    <img src="img/hey.png" alt="" style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }} />
                 </div>
                 <div className="text-light d-flex gap-4">
                     <Link className='text-decoration-none text-light'>Home</Link>
@@ -107,8 +107,25 @@ const NavBar = () => {
                 <div className=" d-flex gap-2 m-2 justify-content-end" style={{ borderRadius: "40px", width: "30%" }}>
                     {loggedIn ? (
                         <Nav>
-                            <NavDropdown>
-                                
+                            <NavDropdown
+                                align="end"
+                                className="profile-dropdown"
+                                title={
+                                    <div>
+                                        <img
+                                            src={current?.image ? `http://localhost:8080/${current.image}` : "https://picsum.photos/200/300"}
+
+                                            alt="profile"
+                                            className=""
+                                            style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }}
+                                        />
+                                        {/* <span>{current?.fullname}</span> */}
+                                    </div>
+                                }
+                            >
+                                {/* <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item> */}
+                                {/* <NavDropdown.Divider /> */}
+                                <NavDropdown.Item onClick={logout} className=''>LogOut</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     ) : (
