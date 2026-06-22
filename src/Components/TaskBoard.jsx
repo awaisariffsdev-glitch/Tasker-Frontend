@@ -45,12 +45,24 @@
 import React, { useContext, useState } from 'react'
 import { TaskContext } from '../Context/TaskContext'
 import AddTaskModal from './AddTaskModel'
+import EditTaskModel from './UpdateTaskModel';
+import UpdateTaskModel from './UpdateTaskModel';
+
 // import './TaskBoard.css'
 
 const TaskBoard = () => {
     const { tasks } = useContext(TaskContext);
     const [showAddModal, setShowAddModal] = useState(false);
-    // console.log(tasks);
+
+    const handleUpdate=()=>{
+        
+    }
+    const handleDelete = async (taskId) => {
+        if (window.confirm("Are You wants to delete The task")){
+
+        }
+    }
+
 
     if (!localStorage.getItem("token")) {
         return null
@@ -92,8 +104,9 @@ const TaskBoard = () => {
                             </div>
 
                             <div className="task-actions">
-                                <button className="btn-edit bg-dark text-light">Edit</button>
-                                <button className="btn-delete">Delete</button>
+                                {/* <button className="btn-edit bg-dark text-light">Edit</button> */}
+                                <UpdateTaskModel/>
+                                <button className="btn-delete" onClick={handleDelete} >Delete</button>
                             </div>
                         </div>
                     ))}
@@ -105,7 +118,7 @@ const TaskBoard = () => {
                     <p>Create your first task to get started</p>
                 </div>
             )}
-            <div className='text-center'><AddTaskModal show={showAddModal} handleClose={() => setShowAddModal(false)} /></div>
+            <div className='d-flex justify-contents-center'><AddTaskModal show={showAddModal} handleClose={() => setShowAddModal(false)} /></div>
         </div>
     )
 }

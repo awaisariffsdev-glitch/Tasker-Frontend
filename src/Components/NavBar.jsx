@@ -21,8 +21,8 @@ function NavBar() {
     return (
         <Navbar expand="lg" className="custom-navbar">
             <Container fluid className="navbar-pill">
-                <Navbar.Brand href="#home" className='fw-bold brand-logo' style={{ width: "15%" }}>
-                    <img src="img/hey.png" alt="logo" />
+                <Navbar.Brand href="#home" className='fw-bold brand-logo ' >
+                    <img src="img/hey.png" alt="logo" style={{ width: "8vh" }} />
                 </Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggle" />
@@ -34,31 +34,33 @@ function NavBar() {
                         <Link to="/feature" className='nav-link-custom'>Features</Link>
                         <Link to="/task" className='nav-link-custom'>Task</Link>
                     </Nav>
-                    {loggedIn ? (<Nav className='d-flex align-items-center auth-pill  profile-start' style={{ width: "28%" }}>
-                        <NavDropdown
-                            align="end"
-                            className="profile-dropdown "
-                            title={
-                                <div>
-                                    <img
-                                        src={current?.image ? `http://localhost:8080/${current.image}` : "https://picsum.photos/200/300"}
+                    <Nav>
+                        {loggedIn ? (<Nav className='d-flex align-items-center auth-pill  profile-start' style={{ width: "28%" }}>
+                            <NavDropdown
+                                align="end"
+                                className="profile-dropdown "
+                                title={
+                                    <div>
+                                        <img
+                                            src={current?.image ? `http://localhost:8080/${current.image}` : "https://picsum.photos/200/300"}
 
-                                        alt="profile"
-                                        className="profile-img"
-                                    />
-                                    <span>{current?.fullname}</span>
-                                </div>
-                            }
-                        >
-                            <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={logout}>LogOut</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>) : (<Nav className='auth-pill' style={{ width: "28%" }}>
-                        <SignUp />
-                        <LogIn />
-                    </Nav>)}
+                                            alt="profile"
+                                            className="profile-img"
+                                        />
+                                        {/* <span>{current?.fullname}</span> */}
+                                    </div>
+                                }
+                            >
+                                {/* <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item> */}
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={logout} className=''>LogOut</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>) : (<Nav className='auth-pill '  style={{width:"40%"}}>
+                            <SignUp />
+                            <LogIn />
+                        </Nav>)}
 
+                    </Nav>
 
 
                 </Navbar.Collapse>

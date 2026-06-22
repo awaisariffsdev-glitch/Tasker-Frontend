@@ -21,11 +21,12 @@
 }
 
 .brand-logo img {
-    width: 38px;
-    height: 38px;
+    /* width: 38px;
+    height: 38px; */
     border-radius: 50%;
-    background: #fff;
-    padding: 6px;
+    /* background: #fff; */
+    padding: 0px;
+    margin-left:5px ;
     object-fit: contain;
 }
 
@@ -33,6 +34,7 @@
 .custom-toggle {
     border: none !important;
     box-shadow: none !important;
+    
     filter: invert(1);
 }
 
@@ -43,6 +45,8 @@
 
 .nav-link-custom {
     color: rgba(255, 255, 255, 0.85) !important;
+    width: 40% !important;
+
     text-decoration: none;
     font-weight: 500;
     padding: 8px 16px;
@@ -72,7 +76,7 @@
 }
 
 /* ===== Email / auth pill (logged out, e.g. shows email or signup/login) ===== */
-.auth-pill {
+/* .auth-pill {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -85,7 +89,8 @@
     align-items: center;
     justify-content: center;
 
-}
+} */
+ 
 
 .auth-email-pill {
     background: #fff;
@@ -101,6 +106,12 @@
 .auth-pill button,
 .auth-pill a {
     border-radius: 999px !important;
+    background-color: whitesmoke !important;
+    color: black !important;
+    /* display: flex !important;
+    gap: 5px !important; */
+    padding: 10% !important;
+    width: auto !important;
 }
 
 /* ===== Profile dropdown (logged in) ===== */
@@ -133,19 +144,24 @@
 
 .profile-start {
     display: flex !important;
-    justify-content: start !important;
+    justify-content: end !important;
+    margin-right: 10px;
+}
+
+.brand-logo-width{
+    width: 10% !important;
 }
 
 
 
 body {
-    background-color: rgb(57, 55, 55) !important;
+    background-color: whitesmoke !important;
 }
 
-Nav {
+/* Nav {
     position: static !important;
     top: 0px !important;
-}
+} */
 
 
 
@@ -166,7 +182,8 @@ Nav {
 
 .task-board-container {
     min-height: 100vh;
-    background-color: var(--bg-dark);
+    background-color: whitesmoke !important;
+    color: black !important;
     padding: 2rem 1rem;
     color: var(--paper);
 }
