@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { TaskContext } from '../Context/TaskContext'
 import AddTask from '../Services/AddTask'
@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import UpdatedTask from '../Services/UpdateTask'
 // import './AddTaskModal.css'
 
-const UpdateTaskModel = ({ show, handleClose }) => {
+const UpdateTaskModel = ({ show, handleClose, task }) => {
     const { setTasks } = useContext(TaskContext);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -20,6 +20,19 @@ const UpdateTaskModel = ({ show, handleClose }) => {
         statusId: ""
     });
 
+
+
+    useEffect(() => {
+        if (task) {
+            setFormData({
+                title: task.title || "",
+                description: task.description || "",
+                dueDate: task.dueDate || "",
+                dueTime: task.dueTime || "",
+                progress: task.progress || "Pending",
+            })
+        }
+    }, [task])
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -39,24 +52,14 @@ const UpdateTaskModel = ({ show, handleClose }) => {
         // console.log(formData)
 
         setLoading(true);
-        const result = await AddTask(formData);
+        const result = await UpdatedTask(task._id, formData);
 
         if (result) {
             // Refresh tasks from backend
-            const updatedTasks = await UpdatedTask();
+            const updatedTasks = await GetData();
             setTasks([...updatedTasks].reverse() || []);
 
             // Reset form
-            setFormData({
-                title: "",
-                description: "",
-                dueDate: "",
-                dueTime: "",
-                progress: "Pending",
-                categoryId: "",
-                statusId: ""
-            });
-
             handleClose();
         }
 

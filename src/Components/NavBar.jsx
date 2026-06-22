@@ -92,7 +92,7 @@ const NavBar = () => {
 
     return (
         <div className='d-flex justify-content-center mt-2 ' style={{ position: "sticky", top: "0%" }}>
-            <nav className='bg-dark d-flex justify-content-between align-items-center w-75  ' style={{ borderRadius: "50px" }}>
+            <nav className='bg-dark d-flex justify-content-between align-items-center w-75  ' style={{ borderRadius: "50px", border: "1px solid white" }}>
                 <div className="ms-2" style={{ borderRadius: "40px", width: "20%" }}>
                     <img src="img/hey.png" alt="" style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }} />
                 </div>
@@ -117,7 +117,7 @@ const NavBar = () => {
 
                                             alt="profile"
                                             className=""
-                                            style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }}
+                                            style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover",border:"1px solid white" }}
                                         />
                                         {/* <span>{current?.fullname}</span> */}
                                     </div>
@@ -125,11 +125,11 @@ const NavBar = () => {
                             >
                                 {/* <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item> */}
                                 {/* <NavDropdown.Divider /> */}
-                                <NavDropdown.Item onClick={logout} className=''>LogOut</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout} className='' >LogOut</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     ) : (
-                        <div className="">
+                        <div className="d-flex gap-1">
                             <SignUp />
                             <LogIn />
                         </div>

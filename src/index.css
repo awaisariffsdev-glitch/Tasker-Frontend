@@ -104,20 +104,21 @@ body {
 
 .task-card {
     background-color: var(--bg-card);
-    border: 1px solid var(--line);
+    /* border: 1px solid var(--line); */
     border-radius: 16px;
     padding: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    border: 1px solid rgb(60, 59, 59) !important;
     height: 100%;
 }
 
 .task-card:hover {
-    border-color: var(--info);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
-    transform: translateY(-4px);
+    /* border-color: var(--info); */
+    /* box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15); */
+    /* transform: translateY(-4px); */
 }
 
 .task-card-header {
