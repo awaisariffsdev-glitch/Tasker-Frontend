@@ -143,26 +143,27 @@ import React, { useContext, useState } from 'react'
 import { TaskContext } from '../Context/TaskContext'
 import AddTaskModal from './AddTaskModel'
 import UpdateTaskModel from './UpdateTaskModel';
-import DeleteTask from '../Services/DeleteTask';
+// import DeleteTask from '../Services/DeleteTask';
 import { toast } from 'react-toastify';
-
+import { TaskContextDelete } from '../Context/TaskContextDelete';
+// import { TaskContextDelete } from '../Context/TaskContextDelete'
 const TaskBoard = () => {
     const { tasks, setTasks } = useContext(TaskContext);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
+    const { deleteTask } = useContext(TaskContextDelete)
 
     const handleEditClick = (task) => {
         setTaskToEdit(task);
         setShowEditModal(true);
     }
 
-    const handleDelete = async (taskId) => {
-        if (window.confirm("Are You wants to delete The task")) {
-            await DeleteTask(taskId);
-            setTasks(prev => prev.filter(task=>tasks._id !== taskId));
-            toast.success("Task Delete Successfully")
-        }
+   const handleDelete=async( taskId)=> {
+        if (!window.confirm("Wants to Delete Task!"))
+        return;
+        await deleteTask(taskId)
+
     }
 
     if (!localStorage.getItem("token")) {
@@ -223,11 +224,11 @@ const TaskBoard = () => {
                                     Edit
                                 </button>
 
-                                <UpdateTaskModel
+                                {/* <UpdateTaskModel
                                     show={showEditModal}
                                     task={taskToEdit}
                                     handleClose={() => setShowEditModal(false)}
-                                />
+                                /> */}
                                 <button className="btn-delete" onClick={() => handleDelete(task._id)}>Delete</button>
                             </div>
                         </div>
@@ -235,8 +236,8 @@ const TaskBoard = () => {
                 </div>
             ) : (
                 <div className="empty-state">
-                    <div className="empty-icon">📋</div>
-                    <h3>No Tasks Yet</h3>
+                    <div className="empty-icon text-dark">📋</div>
+                    <h3 className='text-dark'>No Tasks Yet</h3>
                     <p>Create your first task to get started</p>
                 </div>
             )}

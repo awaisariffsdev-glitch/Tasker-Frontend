@@ -7,16 +7,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom'
 import UserProvider from './Context/UserContext.jsx';
 import TaskProvider from './Context/TaskContext.jsx';
+import TaskProviderDelete from './Context/TaskContextDelete.jsx';
 
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <UserProvider>
     <TaskProvider>
-      <BrowserRouter >
-        <App />
-      </BrowserRouter>
+      <TaskProviderDelete>
 
+        <BrowserRouter >
+          <App />
+        </BrowserRouter>
+
+      </TaskProviderDelete>
     </TaskProvider>
   </UserProvider>
   // </StrictMode>,
