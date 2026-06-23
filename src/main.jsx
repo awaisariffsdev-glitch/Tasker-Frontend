@@ -8,19 +8,23 @@ import { BrowserRouter } from 'react-router-dom'
 import UserProvider from './Context/UserContext.jsx';
 import TaskProvider from './Context/TaskContext.jsx';
 import TaskProviderDelete from './Context/TaskContextDelete.jsx';
+import { TaskContextUpdate } from './Context/TaskContextUpdate.jsx';
 
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <UserProvider>
     <TaskProvider>
-      <TaskProviderDelete>
+      <TaskContextUpdate>
 
-        <BrowserRouter >
-          <App />
-        </BrowserRouter>
+        <TaskProviderDelete>
 
-      </TaskProviderDelete>
+          <BrowserRouter >
+            <App />
+          </BrowserRouter>
+
+        </TaskProviderDelete>
+      </TaskContextUpdate>
     </TaskProvider>
   </UserProvider>
   // </StrictMode>,

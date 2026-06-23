@@ -70,7 +70,9 @@ body {
     background-color: whitesmoke !important;
     color: black !important;
     padding: 2rem 1rem;
+    /* margin: 0; */
     color: var(--paper);
+    /* box-shadow: wheat !important; */
 }
 
 .task-board-header {
@@ -103,7 +105,7 @@ body {
 }
 
 .task-card {
-    background-color: var(--bg-card);
+    background-color: #32342d;
     /* border: 1px solid var(--line); */
     border-radius: 16px;
     padding: 1.5rem;
@@ -115,11 +117,7 @@ body {
     height: 100%;
 }
 
-.task-card:hover {
-    /* border-color: var(--info); */
-    /* box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15); */
-    /* transform: translateY(-4px); */
-}
+
 
 .task-card-header {
     display: flex;
@@ -216,12 +214,12 @@ body {
 
 .btn-edit {
     background-color: var(--info);
-    color: white;
-    border-color: var(--info);
+    color: rgb(187, 189, 185);
+    border-color: #696868;
 }
 
 .btn-edit:hover {
-    background-color: #2563eb;
+    background-color: #6a6b6c !important;
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 

@@ -1,101 +1,102 @@
-import { useState,useContext } from 'react';
+
+import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify"; // ✅ Only import toast (removed ToastContainer since it's now in App.js)
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../Context/UserContext';
 
-
-// npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
-// npm install react-toastify
-
 function LogIn() {
-    const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [formError, setFormError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const { setUser, setLoggedIn,setCurrent } = useContext(UserContext)
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const { setUser, setLoggedIn, setCurrent } = useContext(UserContext);
 
-    const handleClose = () => {
-        if (loading) return;
-        setShow(false);
-    };
-    const handleShow = () => setShow(true);
+  const handleClose = () => {
+    if (loading) return;
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
 
-    const [form, setForm] = useState({
-        email: "",
-        password: ""
-    });
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
 
-    const resetForm = () => {
-        setForm({ email: "", password: "" });
-        setShowPassword(false);
-    };
+  const resetForm = () => {
+    setForm({ email: "", password: "" });
+    setShowPassword(false);
+  };
 
-    const validate = () => {
-        if (!form.email || !form.password) {
-            return "All fields are required";
-        }
-        if (!form.email.toLowerCase().includes("@gmail.com")) {
-            return "Email must be a valid @gmail.com address";
-        }
-        return "";
-    };
+  const validate = () => {
+    if (!form.email || !form.password) {
+      return "All fields are required";
+    }
+    if (!form.email.toLowerCase().includes("@gmail.com")) {
+      return "Email must be a valid @gmail.com address";
+    }
+    return "";
+  };
 
-    const handleChanges = (e) => {
-        if (formError) setFormError("");
-        setForm((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }));
-    };
+  const handleChanges = (e) => {
+    if (formError) setFormError("");
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
-    const handleSubmit = async () => {
-        const validationError = validate();
-        if (validationError) {
-            setFormError(validationError);
-            toast.error(validationError);
-            return;
-        }
+  const handleSubmit = async () => {
+    const validationError = validate();
+    if (validationError) {
+      setFormError(validationError);
+      toast.error(validationError);
+      return;
+    }
 
-        setFormError("");
-        setLoading(true);
+    setFormError("");
+    setLoading(true);
 
-        try {
-            const response = await axios.post("http://localhost:8080/user/logIn", {
-                email: form.email,
-                password: form.password
-            });
+    try {
+      const response = await axios.post("http://localhost:8080/user/logIn", {
+        email: form.email,
+        password: form.password
+      });
 
-            const token = response.data.token;
-            localStorage.setItem("token",token);
-            // setUser(JSON.stringify(user));
-            localStorage.setItem("user",JSON.stringify(response.data.user));
-            // console.log(response.data.user)
-            setLoggedIn(true)
-            setCurrent(response.data.user)
-            window.location.reload();
-            
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
-            toast.success("Logged in successfully");
-            resetForm();
-            handleClose();
-        } catch (error) {
-            const status = error?.response?.status;
+      setLoggedIn(true);
+      setCurrent(response.data.user);
 
+      // 1. Show the success toast
+      toast.success("Logged in successfully");
 
-            setFormError(message);
-            toast.error(message);
-        } finally {
-            setLoading(false);
-        }
-    };
+      resetForm();
+      handleClose();
 
-    return (
-        <>
-            <style>{`
+      // 2. Delay the page reload slightly so the user sees the toast
+      setTimeout(() => {
+        window.location.reload();
+      }, 1200); // 1.2 second delay
+
+    } catch (error) {
+      // ✅ Fixed: defined the error message properly to prevent crash
+      const message = error?.response?.data?.message || error?.message || "Invalid Credentials";
+      setFormError(message);
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <style>{`
         :root {
           --bg-dark: #1a1a1a;
           --bg-darker: #111111;
@@ -119,7 +120,6 @@ function LogIn() {
           transition: background-color 0.2s ease, transform 0.15s ease;
         }
         .login-trigger:hover {
-         
           transform: translateY(-1px);
         }
 
@@ -288,97 +288,86 @@ function LogIn() {
         }
       `}</style>
 
-            <Button className="login-trigger" onClick={handleShow}>
-                LogIn
-            </Button>
+      <Button className="login-trigger" onClick={handleShow}>
+        LogIn
+      </Button>
 
-            <Modal show={show} onHide={loading ? undefined : handleClose} centered className="login-modal" backdrop={loading ? "static" : true}>
-                <ToastContainer
-                    position="top-right"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop={true}
-                    closeOnClick  
-                    pauseOnHover={false}
-                    theme="dark"
-                    style={{ zIndex: 99999 }}
+      <Modal show={show} onHide={loading ? undefined : handleClose} centered className="login-modal" backdrop={loading ? "static" : true}>
+        {/* ✅ Removed <ToastContainer> from here as it is already configured globally in App.js */}
+
+        <Modal.Header closeButton={!loading}>
+          <div>
+            <span className="modal-eyebrow">Welcome back</span>
+            <Modal.Title>Log In</Modal.Title>
+          </div>
+        </Modal.Header>
+
+        <Modal.Body>
+          <fieldset disabled={loading} style={{ border: 'none', padding: 0, margin: 0 }}>
+            <form action="">
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="email"
+                  id="login-email"
+                  placeholder=""
+                  value={form.email}
                 />
-                <Modal.Header closeButton={!loading}>
-                    <div>
-                        <span className="modal-eyebrow">Welcome back</span>
-                        <Modal.Title>Log In</Modal.Title>
-                    </div>
-                </Modal.Header>
+                <label htmlFor="login-email">E-mail</label>
+              </div>
 
-                <Modal.Body>
-                    <fieldset disabled={loading} style={{ border: 'none', padding: 0, margin: 0 }}>
-                        <form action="">
-                            <div className="form-floating mb-3">
-                                <input
-                                    type="email"
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="email"
-                                    id="login-email"
-                                    placeholder=""
-                                    value={form.email}
-                                />
-                                <label htmlFor="login-email">E-mail</label>
-                            </div>
+              <div className="form-floating mb-3 password-field">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="password"
+                  id="login-password"
+                  placeholder=""
+                  value={form.password}
+                />
+                <label htmlFor="login-password">Password</label>
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
 
-                            <div className="form-floating mb-3 password-field">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="password"
-                                    id="login-password"
-                                    placeholder=""
-                                    value={form.password}
-                                />
-                                <label htmlFor="login-password">Password</label>
-                                <button
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() => setShowPassword((prev) => !prev)}
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
-                                    disabled={loading}
-                                >
-                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                                </button>
-                            </div>
+              <div className="login-forgot">
+                <button type="button" disabled={loading}>Forgot password?</button>
+              </div>
 
-                            <div className="login-forgot">
-                                <button type="button" disabled={loading}>Forgot password?</button>
-                            </div>
+              {formError && (
+                <div className="form-error-alert" role="alert">
+                  {formError}
+                </div>
+              )}
+            </form>
+          </fieldset>
+        </Modal.Body>
 
-                            {formError && (
-                                <div className="form-error-alert" role="alert">
-                                    {formError}
-                                </div>
-                            )}
-                        </form>
-                    </fieldset>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button className="btn-close-secondary" onClick={handleClose} disabled={loading}>
-                        Cancel
-                    </Button>
-                    <Button className="btn-register" type='submit' onClick={handleSubmit} disabled={loading}>
-                        {loading ? (
-                            <>
-
-                                Loading...
-                            </>
-                        ) : (
-                            "Log In"
-                        )}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
+        <Modal.Footer>
+          <Button className="btn-close-secondary" onClick={handleClose} disabled={loading}>
+            Cancel
+          </Button>
+          <Button className="btn-register" type='submit' onClick={handleSubmit} disabled={loading}>
+            {loading ? (
+              <>Loading...</>
+            ) : (
+              "Log In"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
 
 export default LogIn;
