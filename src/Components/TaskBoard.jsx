@@ -63,7 +63,7 @@ const TaskBoard = () => {
                             {/* <p>{task.description}</p> */}
                             {/* <p className="task-description">{task.description.length > 30 ? (`$
                             {task.description.substring(1, 100)}...`) : (task.description)}</p> */}
-                            <p className="task-description">{task.description.length > 30 ? (`${task.description.substring(1, 30)}...`) : (task.description)}</p>
+                            <p className="task-description">{task.description && task.description.length > 50 ? (`${task.description.substring(1, 50)}...`) : (task.description)}</p>
                             <div className="task-meta">
                                 <div className="meta-item">
                                     <span className="meta-label">Due Date:</span>

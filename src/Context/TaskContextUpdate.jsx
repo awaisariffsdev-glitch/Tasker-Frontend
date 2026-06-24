@@ -29,10 +29,14 @@ export default function TaskProviderUpdate({ children }) {
 
             const updatedTask = await response.json();
 
+            const updateTaskBody = updateTask.task || updateTask.data || updateTask;
+
             // Update context state
             setTasks((prev) =>
                 prev.map((task) =>
-                    task._id === taskId ? updatedTask : task
+                    task._id === taskId
+                        ? { ...task, ...formData, _id: taskId } // Merges old task with new form data
+                        : task
                 )
             );
 
