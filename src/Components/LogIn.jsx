@@ -81,7 +81,7 @@ function LogIn() {
 
       // 2. Delay the page reload slightly so the user sees the toast
       setTimeout(() => {
-        window.location.reload();
+        // window.location.reload();
       }, 1200); // 1.2 second delay
 
     } catch (error) {
