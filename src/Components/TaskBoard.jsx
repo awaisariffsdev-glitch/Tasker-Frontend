@@ -60,7 +60,10 @@ const TaskBoard = () => {
                                 <h3 className="task-title text-capitalize fw-normal" >{task.title}</h3>
                                 <span className="task-status">{task.progress}</span>
                             </div>
-                            <p className="task-description">{task.description}</p>
+                            {/* <p>{task.description}</p> */}
+                            {/* <p className="task-description">{task.description.length > 30 ? (`$
+                            {task.description.substring(1, 100)}...`) : (task.description)}</p> */}
+                            <p className="task-description">{task.description.length > 30 ? (`${task.description.substring(1, 30)}...`) : (task.description)}</p>
                             <div className="task-meta">
                                 <div className="meta-item">
                                     <span className="meta-label">Due Date:</span>

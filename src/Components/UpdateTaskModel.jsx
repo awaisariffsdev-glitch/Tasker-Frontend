@@ -1,15 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { TaskContext } from '../Context/TaskContext'
-import AddTask from '../Services/AddTask'
-import GetData from '../Services/GetData'
+// import AddTask from '../Services/AddTask'
+// import GetData from '../Services/GetData'
 import { toast, ToastContainer } from 'react-toastify'
-import UpdatedTask from '../Services/UpdateTask'
+import { TaskContextUpdate } from '../Context/TaskContextUpdate'
+// import updatedTasks from '../Context/TaskContextUpdate'
+// import UpdatedTask from '../Services/UpdateTask'
 // import './AddTaskModal.css'
 
 const UpdateTaskModel = ({ show, handleClose, task }) => {
     const { setTasks } = useContext(TaskContext);
     const [loading, setLoading] = useState(false);
+    const { updateTask } = useContext(TaskContextUpdate)
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -52,12 +55,12 @@ const UpdateTaskModel = ({ show, handleClose, task }) => {
         // console.log(formData)
 
         setLoading(true);
-        const result = await UpdatedTask(task._id, formData);
+        const result = await updateTask(task._id, formData);
 
         if (result) {
             // Refresh tasks from backend
-            const updatedTasks = await GetData();
-            setTasks([...updatedTasks].reverse() || []);
+            // const updatedTasks = await GetData();
+            // setTasks([...updatedTasks].reverse() || []);
 
             // Reset form
             handleClose();
@@ -71,7 +74,7 @@ const UpdateTaskModel = ({ show, handleClose, task }) => {
             <Modal.Header closeButton={!loading}>
                 <Modal.Title>Edit Task</Modal.Title>
             </Modal.Header>
-            <ToastContainer
+            {/* <ToastContainer
                 position="top-right"
                 autoClose={3000}
                 hideProgressBar={false}
@@ -80,7 +83,7 @@ const UpdateTaskModel = ({ show, handleClose, task }) => {
                 pauseOnHover={false}
                 theme="dark"
                 style={{ zIndex: 99999 }}
-            />
+            /> */}
 
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
