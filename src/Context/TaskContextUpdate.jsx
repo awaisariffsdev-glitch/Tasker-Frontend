@@ -40,12 +40,12 @@ export default function TaskProviderUpdate({ children }) {
                 )
             );
 
-            toast.success("Task update ho gaya!");
+            toast.success("Task update Successfully");
             return true;
 
         } catch (error) {
             console.log(error);
-            toast.error("Kuch gadbad ho gayi");
+            toast.error("Somethings Went Wrong");
             return false;
         }
     };
