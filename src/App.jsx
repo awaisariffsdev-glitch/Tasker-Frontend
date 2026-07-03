@@ -33,7 +33,15 @@ const App = () => {
   return (
     <div>
       <NavBar />
-      {loggedIn ? <TaskBoard /> : null}
+      {loggedIn ? <TaskBoard /> :
+        <div>
+          <div className="empty-state">
+            <div className="empty-icon text-dark">📋</div>
+            <h3 className='text-dark'>Tasker Website</h3>
+            <p>First Login to  Add Task</p>
+          </div>
+        </div>
+      }
 
       {/* Top-centered, pill-styled Toast Container */}
       <ToastContainer
@@ -45,7 +53,7 @@ const App = () => {
         rtl={false}
         pauseOnFocusLoss
         draggable // Enables swipe/drag to dismiss
-        pauseOnHover
+        pauseOnHover={false}
         theme="light" // Use light as base, custom CSS styles override the colors
       />
     </div>

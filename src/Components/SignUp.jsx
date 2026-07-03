@@ -812,110 +812,110 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 const SPECIAL_CHAR_REGEX = /[!@#$%^&*(),.?":{}|<>_\-+=~`[\]/;]/;
 
 function SignUp() {
-    const [show, setShow] = useState(false);
-    const [preview, setPreview] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [formError, setFormError] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+  const [show, setShow] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-    const handleClose = () => {
-        if (loading) return;
-        setShow(false);
-    };
-    const handleShow = () => setShow(true);
+  const handleClose = () => {
+    if (loading) return;
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
 
-    const [form, setForm] = useState({
-        fullname: "",
-        email: "",
-        contact: "",
-        image: "",
-        password: ""
+  const [form, setForm] = useState({
+    fullname: "",
+    email: "",
+    contact: "",
+    image: "",
+    password: ""
+  });
+
+  const resetForm = () => {
+    setForm({
+      fullname: "",
+      email: "",
+      contact: "",
+      image: "",
+      password: ""
     });
+    setPreview(null);
+    setShowPassword(false);
+  };
 
-    const resetForm = () => {
-        setForm({
-            fullname: "",
-            email: "",
-            contact: "",
-            image: "",
-            password: ""
-        });
-        setPreview(null);
-        setShowPassword(false);
-    };
+  const validate = () => {
+    if (!form.fullname || !form.email || !form.password) {
+      return "All Fields Are Required";
+    }
+    if (!form.email.toLowerCase().includes("@gmail.com")) {
+      return "Email must be a valid @gmail.com address";
+    }
+    if (!SPECIAL_CHAR_REGEX.test(form.password)) {
+      return "Password must contain at least one special character";
+    }
+    return "";
+  };
 
-    const validate = () => {
-        if (!form.fullname || !form.email || !form.password) {
-            return "All Fields Are Required";
-        }
-        if (!form.email.toLowerCase().includes("@gmail.com")) {
-            return "Email must be a valid @gmail.com address";
-        }
-        if (!SPECIAL_CHAR_REGEX.test(form.password)) {
-            return "Password must contain at least one special character";
-        }
-        return "";
-    };
+  const handleSubmit = async () => {
+    const validationError = validate();
+    if (validationError) {
+      setFormError(validationError);
+      toast.error(validationError);
+      return;
+    }
 
-    const handleSubmit = async () => {
-        const validationError = validate();
-        if (validationError) {
-            setFormError(validationError);
-            toast.error(validationError);
-            return;
-        }
+    setFormError("");
+    setLoading(true);
 
-        setFormError("");
-        setLoading(true);
+    try {
+      const newForm = new FormData();
+      newForm.append("fullname", form.fullname);
+      newForm.append("email", form.email);
+      newForm.append("contact", form.contact);
+      newForm.append("image", form.image);
+      newForm.append("password", form.password);
 
-        try {
-            const newForm = new FormData();
-            newForm.append("fullname", form.fullname);
-            newForm.append("email", form.email);
-            newForm.append("contact", form.contact);
-            newForm.append("image", form.image);
-            newForm.append("password", form.password);
+      const response = await axios.post("http://localhost:8080/user/signUp", newForm);
 
-            const response = await axios.post("http://localhost:8080/user/signUp", newForm);
+      toast.success(response.data.Message || "Account created successfully");
+      resetForm();
+      handleClose();
+    } catch (error) {
+      // ✅ Fixed: Extracting the error message to avoid reference crashes
+      const message = error?.response?.data?.message || error?.message || "Failed to create account";
+      setFormError(message);
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            toast.success(response.data.Message || "Account created successfully");
-            resetForm();
-            handleClose();
-        } catch (error) {
-            // ✅ Fixed: Extracting the error message to avoid reference crashes
-            const message = error?.response?.data?.message || error?.message || "Failed to create account";
-            setFormError(message);
-            toast.error(message);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleChanges = (e) => {
+    if (formError) setFormError("");
 
-    const handleChanges = (e) => {
-        if (formError) setFormError("");
+    if (e.target.type === "file") {
+      setForm((prev) => ({
+        ...prev,
+        image: e.target.files[0]
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value
+      }));
+    }
+  };
 
-        if (e.target.type === "file") {
-            setForm((prev) => ({
-                ...prev,
-                image: e.target.files[0]
-            }));
-        } else {
-            setForm((prev) => ({
-                ...prev,
-                [e.target.name]: e.target.value
-            }));
-        }
-    };
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) setPreview(URL.createObjectURL(file));
+    handleChanges(e);
+  };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files?.[0];
-        if (file) setPreview(URL.createObjectURL(file));
-        handleChanges(e);
-    };
-
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         :root {
           --bg-dark: #1a1a1a;
           --bg-darker: #111111;
@@ -1149,132 +1149,132 @@ function SignUp() {
         }
       `}</style>
 
-            <Button className="signup-trigger" onClick={handleShow}>
-                Sign Up
-            </Button>
+      <Button className="signup-trigger" onClick={handleShow}>
+        Sign Up
+      </Button>
 
-            <Modal show={show} onHide={loading ? undefined : handleClose} centered className="signup-modal" backdrop={loading ? "static" : true}>
-                {/* ✅ Removed local <ToastContainer> since it is handled by App.js */}
+      <Modal show={show} onHide={loading ? undefined : handleClose} centered className="signup-modal" backdrop={loading ? "static" : true}>
+        {/* ✅ Removed local <ToastContainer> since it is handled by App.js */}
 
-                <Modal.Header closeButton={!loading}>
-                    <div>
-                        <span className="modal-eyebrow">Join us</span>
-                        <Modal.Title>Personal Details</Modal.Title>
-                    </div>
-                </Modal.Header>
+        <Modal.Header closeButton={!loading}>
+          <div>
+            <span className="modal-eyebrow">Join us</span>
+            <Modal.Title>Personal Details</Modal.Title>
+          </div>
+        </Modal.Header>
 
-                <Modal.Body>
-                    <fieldset disabled={loading} style={{ border: 'none', padding: 0, margin: 0 }}>
-                        <form action="">
-                            <div className="avatar-row">
-                                <label htmlFor="image" className="avatar-circle" style={{ cursor: loading ? 'not-allowed' : 'pointer' }}>
-                                    {preview ? <img src={preview} alt="Profile preview" /> : 'PHOTO'}
-                                </label>
-                                <div>
-                                    <p className="avatar-label">Profile picture</p>
-                                    <p className="avatar-hint">Square photos work best</p>
-                                    <label htmlFor="image" className="avatar-button">
-                                        Choose file
-                                    </label>
-                                    <input
-                                        type="file"
-                                        onChange={handleImageChange}
-                                        className="avatar-input"
-                                        name="image"
-                                        id="image"
-                                        accept="image/*"
-                                        disabled={loading}
-                                    />
-                                </div>
-                            </div>
+        <Modal.Body>
+          <fieldset disabled={loading} style={{ border: 'none', padding: 0, margin: 0 }}>
+            <form action="">
+              <div className="avatar-row">
+                <label htmlFor="image" className="avatar-circle" style={{ cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  {preview ? <img src={preview} alt="Profile preview" /> : 'PHOTO'}
+                </label>
+                <div>
+                  <p className="avatar-label">Profile picture</p>
+                  <p className="avatar-hint">Square photos work best</p>
+                  <label htmlFor="image" className="avatar-button">
+                    Choose file
+                  </label>
+                  <input
+                    type="file"
+                    onChange={handleImageChange}
+                    className="avatar-input"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
 
-                            <div className="form-floating mb-3">
-                                <input
-                                    type="text"
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="fullname"
-                                    id="fullname"
-                                    placeholder=""
-                                    value={form.fullname}
-                                />
-                                <label htmlFor="fullname">Full Name</label>
-                            </div>
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="fullname"
+                  id="fullname"
+                  placeholder=""
+                  value={form.fullname}
+                />
+                <label htmlFor="fullname">Full Name</label>
+              </div>
 
-                            <div className="form-floating mb-3">
-                                <input
-                                    type="email"
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="email"
-                                    id="email"
-                                    placeholder=""
-                                    value={form.email}
-                                />
-                                <label htmlFor="email">E-mail</label>
-                            </div>
-                            <p className="field-hint">Must be a @gmail.com address</p>
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="email"
+                  id="email"
+                  placeholder=""
+                  value={form.email}
+                />
+                <label htmlFor="email">E-mail</label>
+              </div>
+              <p className="field-hint">Must be a @gmail.com address</p>
 
-                            <div className="form-floating mb-3">
-                                <input
-                                    type="tel"
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="contact"
-                                    id="contact"
-                                    placeholder=""
-                                    value={form.contact}
-                                />
-                                <label htmlFor="contact">Phone Number</label>
-                            </div>
+              <div className="form-floating mb-3">
+                <input
+                  type="tel"
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="contact"
+                  id="contact"
+                  placeholder=""
+                  value={form.contact}
+                />
+                <label htmlFor="contact">Phone Number</label>
+              </div>
 
-                            <div className="form-floating mb-3 password-field">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    onChange={handleChanges}
-                                    className="form-control"
-                                    name="password"
-                                    id="password"
-                                    placeholder=""
-                                    value={form.password}
-                                />
-                                <label htmlFor="password">Password</label>
-                                <button
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() => setShowPassword((prev) => !prev)}
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
-                                    disabled={loading}
-                                >
-                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                                </button>
-                            </div>
-                            <p className="field-hint">Must include at least one special character</p>
+              <div className="form-floating mb-3 password-field">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChanges}
+                  className="form-control"
+                  name="password"
+                  id="password"
+                  placeholder=""
+                  value={form.password}
+                />
+                <label htmlFor="password">Password</label>
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
+              <p className="field-hint">Must include at least one special character</p>
 
-                            {formError && (
-                                <div className="form-error-alert" role="alert">
-                                    {formError}
-                                </div>
-                            )}
-                        </form>
-                    </fieldset>
-                </Modal.Body>
+              {formError && (
+                <div className="form-error-alert" role="alert">
+                  {formError}
+                </div>
+              )}
+            </form>
+          </fieldset>
+        </Modal.Body>
 
-                <Modal.Footer>
-                    <Button className="btn-close-secondary" onClick={handleClose} disabled={loading}>
-                        Cancel
-                    </Button>
-                    <Button className="btn-register" type='submit' onClick={handleSubmit} disabled={loading}>
-                        {loading ? (
-                            <>Loading...</>
-                        ) : (
-                            "Register"
-                        )}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
+        <Modal.Footer>
+          <Button className="btn-close-secondary" onClick={handleClose} disabled={loading}>
+            Cancel
+          </Button>
+          <Button className="btn-register" type='submit' onClick={handleSubmit} disabled={loading}>
+            {loading ? (
+              <>Loading...</>
+            ) : (
+              "Register"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
 
 export default SignUp;
